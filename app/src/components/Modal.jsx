@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function Modal({ title, onClose, children, wide }) {
   useEffect(() => {
@@ -11,7 +12,10 @@ export default function Modal({ title, onClose, children, wide }) {
     };
   }, [onClose]);
 
-  return (
+  /* Portal to <body>: the page wrapper animates transform, which would
+     otherwise become the containing block for this fixed overlay and
+     break its position and scrolling. */
+  return createPortal(
     <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal" role="dialog" aria-modal="true" aria-label={title} style={wide ? { maxWidth: 640 } : undefined}>
         <div className="modal-head">
@@ -22,6 +26,7 @@ export default function Modal({ title, onClose, children, wide }) {
         </div>
         <div className="modal-body">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

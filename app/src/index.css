@@ -181,17 +181,28 @@ h1,h2{font-family:var(--font-display);font-weight:560;letter-spacing:-.01em}
 .empty strong{display:block;color:var(--ink);font-size:1.05rem;margin-bottom:6px}
 
 /* ---------- Modal ---------- */
+/* Scrollable-overlay pattern: the OVERLAY scrolls, the modal centers via
+   margin:auto. A centered flex child taller than the viewport clips at both
+   ends and can't scroll — this layout avoids that entirely. */
 .overlay{
   position:fixed;inset:0;z-index:90;
   background:rgba(31,45,54,.45);backdrop-filter:blur(3px);
-  display:flex;align-items:center;justify-content:center;padding:20px;
+  display:flex;padding:20px;overflow-y:auto;
   animation:fadeIn .25s ease both;
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
 }
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .modal{
   background:var(--paper);border-radius:22px;max-width:480px;width:100%;
-  max-height:88vh;overflow:auto;box-shadow:0 40px 90px -20px rgba(31,45,54,.5);
+  margin:auto;height:fit-content;
+  box-shadow:0 40px 90px -20px rgba(31,45,54,.5);
   animation:popIn .35s cubic-bezier(.2,.9,.3,1.15) both;
+}
+@media (max-width:600px){
+  .overlay{padding:12px}
+  .modal{border-radius:18px}
+  .modal-head{padding:20px 20px 0}
+  .modal-body{padding:14px 20px 22px}
 }
 @keyframes popIn{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:none}}
 .modal-head{padding:26px 28px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:16px}
@@ -280,13 +291,43 @@ h1,h2{font-family:var(--font-display);font-weight:560;letter-spacing:-.01em}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;scroll-behavior:auto}
 }
+/* Drawer user row — only visible inside the mobile menu */
+.drawer-user{display:none}
+
 @media (max-width:860px){
   .nav-links{
     display:none;position:absolute;top:68px;left:0;right:0;
     background:var(--paper);border-bottom:1px solid var(--line);
     flex-direction:column;padding:20px 24px;gap:18px;align-items:flex-start;
+    box-shadow:0 24px 40px -20px rgba(31,45,54,.25);
   }
   .nav-links.open{display:flex}
   .menu-toggle{display:block}
   .page-hero{padding:36px 0 24px}
+
+  /* Declutter: user chip + member pill live in the drawer, not the bar */
+  .nav-cta .user-chip,.nav-cta .member-pill,.nav-cta .btn{display:none}
+  .drawer-user{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    width:100%;border-top:1px solid var(--line);padding-top:16px;margin-top:4px;
+  }
+  .drawer-user .who{display:flex;align-items:center;gap:10px;font-weight:600}
+  .drawer-user .avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--teal))}
+
+  /* Tabs stretch edge-to-edge instead of leaving a dead gap */
+  .tabs{display:flex;width:100%}
+  .tab{flex:1;text-align:center;padding:9px 8px}
+
+  /* Segmented control: compact, one line per option */
+  .seg{width:100%}
+  .seg-btn{flex:1;padding:11px 10px;align-items:center;text-align:center}
+  .seg-btn small{display:none}
+}
+
+@media (max-width:720px){
+  /* Filter chips scroll horizontally in one tidy row */
+  .filter-row{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+  .filter-row::-webkit-scrollbar{display:none}
+  .filter-row .chip{flex:none;white-space:nowrap}
+  .filter-label{flex:none}
 }

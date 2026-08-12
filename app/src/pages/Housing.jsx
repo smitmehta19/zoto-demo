@@ -188,9 +188,15 @@ export default function Housing() {
         .gallery .ph-wrap:first-child{grid-row:span 2}
         @media(max-width:820px){
           .hz-top{flex-direction:column;align-items:stretch}
-          .seg{width:100%}.seg-btn{flex:1}
           .person-card{flex-wrap:wrap}
           .person-side{text-align:left;width:100%;display:flex;justify-content:space-between;align-items:center}
+        }
+        @media(max-width:720px){
+          /* One scrollable line per filter group — no chip soup */
+          .hz-filters .row-wrap{flex-wrap:nowrap;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+          .hz-filters .row-wrap::-webkit-scrollbar{display:none}
+          .hz-filters .row-wrap .chip{flex:none;white-space:nowrap}
+          .hz-filters select.input,.hz-filters input.input{flex:none;min-width:130px}
         }
       `}</style>
 
@@ -213,10 +219,10 @@ export default function Housing() {
         <div className="hz-top">
           <div className="seg" role="tablist" aria-label="Housing category">
             <button className={'seg-btn' + (cat === 'rooms' ? ' on' : '')} onClick={() => setCat('rooms')}>
-              Find a place<small>{allRooms.length} rooms available</small>
+              Rooms<small>{allRooms.length} available</small>
             </button>
             <button className={'seg-btn' + (cat === 'people' ? ' on' : '')} onClick={() => setCat('people')}>
-              Find flatmates &amp; tenants<small>{allPeople.length} people looking</small>
+              People<small>{allPeople.length} looking</small>
             </button>
           </div>
         </div>

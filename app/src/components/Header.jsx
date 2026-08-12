@@ -15,17 +15,43 @@ const links = [
 export default function Header() {
   const app = useApp();
   const [open, setOpen] = useState(false);
+  const signOut = () => { app.signOut(); window.location.assign(import.meta.env.BASE_URL); };
 
   return (
     <header className="site-header">
       <div className="wrap nav">
         <NavLink to="/" aria-label="ZOTO home"><Logo size={28} /></NavLink>
-        <nav className={'nav-links' + (open ? ' open' : '')} onClick={() => setOpen(false)}>
+        <nav className={'nav-links' + (open ? ' open' : '')} onClick={(e) => { if (e.target.closest('a,button')) setOpen(false); }}>
           {links.map(([to, label]) => (
             <NavLink key={to} to={to} className={({ isActive }) => (isActive ? 'active' : '')}>
               {label}
             </NavLink>
           ))}
+          {/* Mobile drawer: account row lives here, not in the crowded top bar */}
+          <div className="drawer-user">
+            {app.user ? (
+              <>
+                <span className="who">
+                  <span className="avatar" aria-hidden="true" />
+                  {app.user.name.split(' ')[0]}
+                  {app.subscribed && <span className="member-pill">Member</span>}
+                </span>
+                {app.subscribed ? (
+                  <button className="link-quiet small" style={{ borderBottom: 'none' }} onClick={signOut}>Sign out</button>
+                ) : (
+                  <span className="row" style={{ gap: 14 }}>
+                    <button className="btn saffron sm" onClick={() => app.gate('housingPost', null, 'Full membership')}>Upgrade</button>
+                    <button className="link-quiet small" style={{ borderBottom: 'none' }} onClick={signOut}>Sign out</button>
+                  </span>
+                )}
+              </>
+            ) : (
+              <>
+                <NavLink className="link-quiet" to="/login">Sign in</NavLink>
+                <NavLink className="btn saffron sm" to="/login" style={{ display: 'inline-flex' }}>Join free</NavLink>
+              </>
+            )}
+          </div>
         </nav>
         <div className="nav-cta">
           {app.user ? (
@@ -43,7 +69,7 @@ export default function Header() {
                 <button
                   className="link-quiet small"
                   style={{ borderBottom: 'none' }}
-                  onClick={() => { app.signOut(); window.location.assign(import.meta.env.BASE_URL); }}
+                  onClick={signOut}
                 >
                   Sign out
                 </button>
