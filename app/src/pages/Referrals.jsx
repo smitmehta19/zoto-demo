@@ -58,6 +58,7 @@ export default function Referrals() {
         .rf-toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin:24px 0 20px}
         .co-list{display:flex;flex-direction:column;gap:12px}
         .co-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px 18px;padding:18px 22px}
+        .co-row .btn{white-space:nowrap}
         .co-logo{width:46px;height:46px;border-radius:12px;flex:none;display:flex;align-items:center;justify-content:center;
           font-family:var(--font-display);font-weight:640;font-size:1.15rem;color:#fff}
         .co-main{flex:1;min-width:0}
@@ -71,11 +72,16 @@ export default function Referrals() {
         .status.referred i{background:var(--teal)}
         @media(max-width:820px){
           .rf-toolbar{flex-direction:column;align-items:stretch}
-          /* Logo + name up top; badge and button drop to their own clean row */
+          /* Logo + name up top; actions and status drop to their own clean row */
           .co-row{grid-template-columns:auto 1fr}
-          .co-side{grid-column:1/-1;justify-content:space-between;width:100%;
-            border-top:1px solid var(--line-soft);padding-top:12px}
+          .co-side,.co-row > .btn,.co-row > .status{
+            grid-column:1/-1;width:100%;
+            border-top:1px solid var(--line-soft);padding-top:12px;
+          }
+          .co-side{display:flex;justify-content:space-between;align-items:center}
           .co-side .btn{margin-left:auto}
+          .co-row > .btn{justify-content:center}
+          .co-row > .status{display:flex;justify-content:flex-start}
         }
       `}</style>
 

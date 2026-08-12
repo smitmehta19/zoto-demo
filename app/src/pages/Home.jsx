@@ -65,7 +65,7 @@ export default function Home() {
         .stat-strip .inner{display:flex;justify-content:center;gap:clamp(28px,6vw,80px);flex-wrap:wrap;padding:22px 24px;font-size:.9rem;color:var(--ink-soft)}
         .stat-strip b{font-family:var(--font-display);font-weight:640;font-size:1.25rem;color:var(--teal);margin-right:6px}
 
-        .journey{padding:72px 0 30px}
+        .journey{padding-block:72px 30px}
         .journey-head{max-width:620px;margin-bottom:52px}
         .journey-head h2{font-size:clamp(1.8rem,3.2vw,2.5rem);line-height:1.15;margin-bottom:12px}
         .journey-head p{color:var(--ink-soft);font-size:1.05rem}
@@ -94,7 +94,7 @@ export default function Home() {
         .t-who strong{display:block}
         .t-who span{color:var(--ink-soft);font-size:.82rem}
 
-        .pricing{padding:88px 0 20px}
+        .pricing{padding-block:88px 20px}
         .pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;max-width:960px;margin:0 auto}
         .pricing h2{font-size:clamp(1.8rem,3.2vw,2.5rem);line-height:1.15;margin-bottom:12px}
         .pricing .p-sub{color:var(--ink-soft);font-size:1.02rem;margin-bottom:8px}
@@ -109,7 +109,7 @@ export default function Home() {
           background-size:9px;background-position:center;background-repeat:no-repeat}
         .promo-hint{margin-top:14px;text-align:center;font-size:.86rem}
 
-        .faq-sec{padding:80px 0 20px}
+        .faq-sec{padding-block:80px 20px}
         .faq-sec h2{font-size:clamp(1.8rem,3.2vw,2.5rem);text-align:center;margin-bottom:36px}
 
         .cta{padding:96px 0;text-align:center}
@@ -124,9 +124,19 @@ export default function Home() {
         }
         @media(max-width:720px){
           .hero{padding:48px 0 40px}
-          .stage{grid-template-columns:44px 1fr;gap:16px}
-          .stage-dot{width:36px;height:36px}
-          .stage:not(:last-child) .stage-marker::after{left:17px;top:40px}
+          /* Mobile journey: drop the timeline rail — the number sits inline
+             beside the stage heading instead of hugging the screen edge. */
+          .stage{display:block;padding-bottom:44px}
+          .stage-marker{display:none}
+          .stage h3{display:flex;align-items:center;gap:10px}
+          .stage h3::before{
+            content:attr(data-n);
+            width:30px;height:30px;border-radius:50%;flex:none;
+            background:var(--white);border:2px solid var(--saffron);
+            display:inline-flex;align-items:center;justify-content:center;
+            font-size:.85rem;color:var(--saffron-deep);
+          }
+          .stage .when{margin-left:40px}
         }
       `}</style>
 
@@ -175,7 +185,7 @@ export default function Home() {
                 <div><div className="k">Landing</div><div className="v">09:40 · T2</div></div>
                 <div><div className="k">Airport taxi</div><div className="v">Shared · €12 each</div></div>
               </div>
-              <div className="pass-note"><strong>Priya</strong> and 2 others are on your flight. Say hi before you board.</div>
+              <div className="pass-note"><strong>Aisha</strong> and 2 others are on your flight. Say hi before you board.</div>
             </div>
           </div>
         </div>
@@ -201,7 +211,7 @@ export default function Home() {
         <div className="stage">
           <div className="stage-marker"><div className="stage-dot">1</div></div>
           <div>
-            <h3>Before you fly</h3>
+            <h3 data-n="1">Before you fly</h3>
             <div className="when">Visa in hand · bags packed</div>
             <div className="jcards">
               <Link className="card hover" to="/flight-buddy">
@@ -222,7 +232,7 @@ export default function Home() {
         <div className="stage">
           <div className="stage-marker"><div className="stage-dot">2</div></div>
           <div>
-            <h3>When you land</h3>
+            <h3 data-n="2">When you land</h3>
             <div className="when">First weeks in Ireland</div>
             <div className="jcards">
               <Link className="card hover" to="/housing">
@@ -243,7 +253,7 @@ export default function Home() {
         <div className="stage">
           <div className="stage-marker"><div className="stage-dot">3</div></div>
           <div>
-            <h3>As you settle</h3>
+            <h3 data-n="3">As you settle</h3>
             <div className="when">Building your life here</div>
             <div className="jcards">
               <Link className="card hover" to="/referrals">

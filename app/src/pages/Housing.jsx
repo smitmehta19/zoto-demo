@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Modal from '../components/Modal';
+import Lightbox from '../components/Lightbox';
 import { useApp } from '../lib/store';
 
 const U = (id) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=800&q=60`;
@@ -17,7 +18,7 @@ const rooms = [
     id: 2, title: 'Room in a calm veggie household', price: 780,
     area: 'D4 · Ballsbridge', zone: 'Dublin — Southside', postcode: 'D4',
     roomType: 'single', term: 'long', tags: ['women-only', 'veg-friendly', 'bills-included'],
-    photos: [U('1502672260266-1c1ef2d93688'), U('1513694203232-719a280e022f')],
+    photos: [U('1502672260266-1c1ef2d93688'), U('1513694203232-719a280e022f'), U('1484154218962-a197022b5858')],
     poster: 'Meera K.', posted: '5 days ago', expires: 2, flatmates: '3 flatmates',
     desc: 'Cosy single room in a peaceful all-women house. Fully vegetarian kitchen. Four tenants share the house; bills are included in rent. Close to the Aviva Stadium DART stop.',
   },
@@ -25,7 +26,7 @@ const rooms = [
     id: 3, title: 'Short-let single near DCU, Sep–Dec', price: 620,
     area: 'D9 · Drumcondra', zone: 'Dublin — Northside', postcode: 'D9',
     roomType: 'single', term: 'short', tags: ['student-friendly', 'bills-included'],
-    photos: [U('1493809842364-78817add7ffb'), U('1536376072261-38c75010e6c9')],
+    photos: [U('1493809842364-78817add7ffb'), U('1536376072261-38c75010e6c9'), U('1560448204-e02f11c3d0e2')],
     poster: 'Anh T.', posted: '1 day ago', expires: 4, flatmates: '3 flatmates',
     desc: 'Single room free while my flatmate is on Erasmus. Perfect for a semester — DCU is a 10-minute walk, city buses at the door. Friendly house of three students.',
   },
@@ -41,7 +42,7 @@ const rooms = [
     id: 5, title: 'Studio flat over a bakery, Stoneybatter', price: 1150,
     area: 'D7 · Stoneybatter', zone: 'Dublin — Northside', postcode: 'D7',
     roomType: 'studio', term: 'long', tags: ['professional'],
-    photos: [U('1536376072261-38c75010e6c9'), U('1502672260266-1c1ef2d93688')],
+    photos: [U('1536376072261-38c75010e6c9'), U('1502672260266-1c1ef2d93688'), U('1554995207-c18c203602cb')],
     poster: 'Sofia L.', posted: '6 days ago', expires: 3, flatmates: 'Live alone',
     desc: 'Compact self-contained studio above the best bakery on Manor Street. Own kitchenette and shower room. Smells like sourdough every morning — this is a warning and a promise.',
   },
@@ -49,7 +50,7 @@ const rooms = [
     id: 6, title: 'Double room in a family home, Tallaght', price: 700,
     area: 'D24 · Tallaght', zone: 'Dublin — Southside', postcode: 'D24',
     roomType: 'double', term: 'long', tags: ['veg-friendly', 'bills-included'],
-    photos: [U('1560448204-e02f11c3d0e2'), U('1493809842364-78817add7ffb')],
+    photos: [U('1560448204-e02f11c3d0e2'), U('1493809842364-78817add7ffb'), U('1598928506311-c55ded91a20c')],
     poster: 'Pooja S.', posted: '4 days ago', expires: 6, flatmates: 'Host family',
     desc: 'Double room with a host family — ideal first landing spot. Home-cooked dinners available, Luas red line nearby. Popular with students in their first semester.',
   },
@@ -69,7 +70,7 @@ const people = [
     about: 'Exchange semester at UCD. Happy to house-sit or help with chores. Budget includes bills.',
   },
   {
-    id: 103, name: 'Priya Nair', role: 'Nurse, St James’s', from: 'India',
+    id: 103, name: 'Divya Menon', role: 'Nurse, St James’s', from: 'India',
     budget: 900, areas: 'D8 / D12', move: 'ASAP', term: 'long',
     prefs: ['Women-only house', 'Veg kitchen'],
     about: 'Night-shift nurse — sleeps days some weeks, so I need a genuinely quiet house. In return you will never wait for a GP appointment advice again.',
@@ -99,6 +100,7 @@ export default function Housing() {
   const [allPeople, setAllPeople] = useState(people);
   const [open, setOpen] = useState(null);
   const [openPerson, setOpenPerson] = useState(null);
+  const [lightbox, setLightbox] = useState(null);   // {photos, start}
   const [posting, setPosting] = useState(false);
   const [form, setForm] = useState({ kind: 'room', title: '', postcode: 'D8', price: '', term: 'long', roomType: 'double', tags: [] });
 
@@ -186,6 +188,8 @@ export default function Housing() {
         .person-side .move{font-size:.8rem;color:var(--ink-soft)}
         .gallery{display:grid;grid-template-columns:2fr 1fr;gap:4px;height:230px;border-radius:14px;overflow:hidden;margin-bottom:18px}
         .gallery .ph-wrap:first-child{grid-row:span 2}
+        .gallery-btn{border:0;padding:0;cursor:zoom-in}
+        .gallery-btn:hover .ph-img{opacity:.92}
         @media(max-width:820px){
           .hz-top{flex-direction:column;align-items:stretch}
           .person-card{flex-wrap:wrap}
@@ -263,23 +267,21 @@ export default function Housing() {
           <div className="room-grid">
             {shownRooms.map((r) => (
               <button className="card hover room-card" key={r.id} onClick={() => viewRoom(r)}>
-                <div className={'room-photos' + (r.photos.length === 1 ? ' single' : '')}>
-                  {r.photos.slice(0, member ? 2 : 1).map((src, i) => (
+                <div className={'room-photos' + (!member ? ' single' : '')}>
+                  {r.photos.slice(0, member ? 3 : 1).map((src, i) => (
                     <div className={'ph-wrap' + (!member ? ' locked' : '')} key={i}>
                       <img className="ph-img" src={src} alt="" />
-                      {!member && i === 0 && (
+                      {!member && (
                         <span className="ph-lock">
                           <svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>
                           Photos unlock with membership
                         </span>
                       )}
+                      {member && i === 2 && (
+                        <span style={{ position: 'absolute', right: 8, bottom: 8 }} className="badge teal">{r.photos.length} photos</span>
+                      )}
                     </div>
                   ))}
-                  {member && r.photos.length > 2 && (
-                    <div className="ph-wrap"><img className="ph-img" src={r.photos[2]} alt="" />
-                      <span style={{ position: 'absolute', right: 8, bottom: 8 }} className="badge teal">{r.photos.length} photos</span>
-                    </div>
-                  )}
                 </div>
                 <div className="room-body">
                   <div className="room-top">
@@ -359,9 +361,18 @@ export default function Housing() {
         <Modal title={open.title} onClose={() => setOpen(null)} wide>
           <div className="gallery">
             {open.photos.slice(0, 3).map((src, i) => (
-              <div className="ph-wrap" key={i}><img className="ph-img" src={src} alt="" /></div>
+              <button
+                type="button"
+                className="ph-wrap gallery-btn"
+                key={i}
+                aria-label={`Open photo ${i + 1} full screen`}
+                onClick={() => setLightbox({ photos: open.photos, start: i })}
+              >
+                <img className="ph-img" src={src} alt="" />
+              </button>
             ))}
           </div>
+          <p className="small muted" style={{ marginTop: -12, marginBottom: 14 }}>Tap a photo to view full screen</p>
           <div className="spread" style={{ marginBottom: 10 }}>
             <div className="hz-meta">
               <span>{open.area}</span>
@@ -387,6 +398,10 @@ export default function Housing() {
             </button>
           </div>
         </Modal>
+      )}
+
+      {lightbox && (
+        <Lightbox photos={lightbox.photos} start={lightbox.start} onClose={() => setLightbox(null)} />
       )}
 
       {/* Person detail */}

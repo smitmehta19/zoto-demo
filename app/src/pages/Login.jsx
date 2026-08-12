@@ -40,7 +40,8 @@ export default function Login() {
     <div className="login-shell">
       <style>{`
         .login-shell{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
-        .lg-brand{background:var(--sand);padding:56px 52px;display:flex;flex-direction:column;justify-content:space-between;gap:40px}
+        .lg-brand{background:var(--sand);padding:56px 40px;display:flex;align-items:center;justify-content:center}
+        .lg-brand-inner{max-width:26rem}
         .lg-brand .logo{margin-bottom:40px;display:inline-block}
         .lg-brand h1{font-size:clamp(1.8rem,2.8vw,2.5rem);line-height:1.15;margin-bottom:14px}
         .lg-brand h1 em{font-style:italic;font-weight:480;color:var(--saffron-deep)}
@@ -54,8 +55,6 @@ export default function Login() {
           background:repeating-linear-gradient(180deg,rgba(31,45,54,.25) 0 5px,transparent 5px 10px)}
         .mj-step b{display:block;font-size:.95rem}
         .mj-step span{font-size:.85rem;color:var(--ink-soft)}
-        .lg-quote{font-family:var(--font-display);font-style:italic;font-weight:480;font-size:1.02rem;line-height:1.5;max-width:26rem}
-        .lg-quote footer{font-family:var(--font-body);font-style:normal;font-size:.85rem;color:var(--ink-soft);margin-top:10px}
         .lg-form{display:flex;align-items:center;justify-content:center;padding:48px 24px}
         .lg-card{width:100%;max-width:420px;animation:pageIn .5s cubic-bezier(.2,.7,.2,1) both}
         .lg-card .tabs{width:100%;display:flex;margin-bottom:26px}
@@ -68,11 +67,11 @@ export default function Login() {
         .btn-google:hover{box-shadow:0 4px 14px rgba(31,45,54,.1)}
         .legal{font-size:.8rem;color:var(--ink-soft);margin-top:20px;text-align:center}
         .legal a{color:var(--teal);font-weight:600}
-        @media(max-width:900px){.login-shell{grid-template-columns:1fr}.lg-brand{order:2}.lg-quote{display:none}}
+        @media(max-width:900px){.login-shell{grid-template-columns:1fr}.lg-brand{order:2}}
       `}</style>
 
       <aside className="lg-brand">
-        <div>
+        <div className="lg-brand-inner">
           <span className="logo" style={{ marginBottom: 36, display: 'inline-block' }}>
             <Logo size={32} />
           </span>
@@ -84,10 +83,6 @@ export default function Login() {
             <div className="mj-step"><span className="mj-dot">3</span><div><b>As you settle</b><span>Referrals, events, perks, your community</span></div></div>
           </div>
         </div>
-        <blockquote className="lg-quote">
-          "Signed up at the airport, had a flight buddy by boarding, a room viewing by Friday."
-          <footer>Ananya S. · moved from Pune, Sep 2025</footer>
-        </blockquote>
       </aside>
 
       <main className="lg-form">
