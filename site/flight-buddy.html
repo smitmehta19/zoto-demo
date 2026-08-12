@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flight Buddy — ZOTO</title>
+<meta name="description" content="One group chat per flight. Find ZOTO members on your exact plane, share the airport taxi, and land already knowing someone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,480&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/zoto.css">
+<style>
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin:28px 0 24px}
+  .search-flight{display:flex;gap:10px;flex:1;max-width:420px}
+  .search-flight .input{flex:1}
+
+  .flight-list{display:flex;flex-direction:column;gap:16px;margin-top:24px}
+  .flight-card{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:22px 26px}
+  .fc-date{
+    text-align:center;border-right:1px dashed var(--line);padding-right:20px;min-width:74px;
+  }
+  .fc-date .d{font-family:var(--font-display);font-size:1.7rem;font-weight:640;line-height:1.1}
+  .fc-date .m{font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--saffron-deep)}
+  .fc-main .num{font-weight:700;font-size:1.05rem;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .fc-route{display:flex;align-items:center;gap:10px;color:var(--ink-soft);font-size:.95rem;margin:6px 0 10px;flex-wrap:wrap}
+  .fc-route .hop{height:2px;width:26px;background:repeating-linear-gradient(90deg,var(--saffron) 0 5px,transparent 5px 10px);position:relative;top:1px}
+  .fc-tags{display:flex;gap:8px;flex-wrap:wrap}
+  .fc-side{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+  .travellers{display:flex;align-items:center;gap:8px;font-size:.88rem;color:var(--ink-soft)}
+  .dots{display:flex}
+  .dots i{width:22px;height:22px;border-radius:50%;border:2px solid var(--white);margin-left:-7px;background:linear-gradient(135deg,var(--saffron),var(--teal))}
+  .dots i:first-child{margin-left:0}
+  .dots i:nth-child(2){background:linear-gradient(135deg,var(--teal),#7BA8A0)}
+  .dots i:nth-child(3){background:linear-gradient(135deg,#D9A441,var(--saffron-deep))}
+
+  .how-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:64px}
+  .how-strip .card h4{font-weight:700;margin:12px 0 6px}
+  .how-strip .card p{font-size:.92rem;color:var(--ink-soft)}
+
+  @media (max-width:820px){
+    .flight-card{grid-template-columns:1fr;gap:14px}
+    .fc-date{border-right:0;border-bottom:1px dashed var(--line);padding:0 0 12px;text-align:left;display:flex;gap:8px;align-items:baseline}
+    .fc-side{flex-direction:row;align-items:center;justify-content:space-between;width:100%}
+    .how-strip{grid-template-columns:1fr}
+    .toolbar{flex-direction:column;align-items:stretch}
+    .search-flight{max-width:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="logo" href="index.html">ZOTO<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="flight-buddy.html" class="active">Flight Buddy</a>
+      <a href="housing.html">Housing</a>
+      <a href="referrals.html">Referrals</a>
+      <a href="events.html">Events</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="link-quiet" href="login.html">Sign in</a>
+      <a class="btn saffron sm" href="login.html">Join free</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2D36" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap hero-row">
+    <div>
+      <span class="crumb">Before you fly</span>
+      <h1>Flight Buddy</h1>
+      <p class="sub">One group chat per flight. Find members on your exact plane, plan the airport taxi together, and land already knowing someone.</p>
+    </div>
+    <a class="btn saffron" href="login.html">Post your flight</a>
+  </div>
+</section>
+
+<div class="wrap" data-filter-scope data-tab-scope>
+  <div class="notice" role="note">
+    <svg viewBox="0 0 24 24"><path d="M12 9v4M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg>
+    <span>Flight details are self-reported. ZOTO doesn't verify bookings or identities — use your own judgement when meeting anyone, and prefer public places like the boarding gate.</span>
+  </div>
+
+  <div class="toolbar">
+    <div class="tabs" role="tablist" aria-label="Direction">
+      <button class="tab" role="tab" data-tab="departing" aria-selected="true">Departing Dublin</button>
+      <button class="tab" role="tab" data-tab="arriving" aria-selected="false">Arriving to Dublin</button>
+    </div>
+    <form class="search-flight" onsubmit="return false" aria-label="Search flights">
+      <input class="input" type="text" placeholder="Search flight no. or city — e.g. EI 122, Mumbai">
+      <button class="btn sm" type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="filter-row" data-filter-group="pref">
+    <span class="filter-label">Show</span>
+    <button class="chip" data-value="all" aria-pressed="true">All flights</button>
+    <button class="chip" data-value="women" aria-pressed="false">Women-only groups</button>
+    <button class="chip" data-value="firsttime" aria-pressed="false">First-time flyer friendly</button>
+    <button class="chip" data-value="taxi" aria-pressed="false">Sharing a taxi</button>
+  </div>
+
+  <!-- Departing -->
+  <div id="departing" data-panel class="flight-list">
+    <article class="card hover flight-card" data-item data-pref="taxi firsttime">
+      <div class="fc-date"><div class="d">21</div><div class="m">Aug</div></div>
+      <div class="fc-main">
+        <div class="num">EI 104 <span class="badge teal">4 seats in group</span></div>
+        <div class="fc-route">Dublin <span class="hop"></span> New York (JFK)</div>
+        <div class="fc-tags"><span class="badge saffron">Sharing taxi to airport</span><span class="badge teal">First-time flyer friendly</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i><i></i><i></i></span>3 travellers</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+
+    <article class="card hover flight-card" data-item data-pref="">
+      <div class="fc-date"><div class="d">26</div><div class="m">Aug</div></div>
+      <div class="fc-main">
+        <div class="num">EK 162</div>
+        <div class="fc-route">Dublin <span class="hop"></span> Dubai <span class="hop"></span> Hyderabad</div>
+        <div class="fc-tags"><span class="badge teal">Long layover — meet in DXB</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i><i></i><i></i></span>3 travellers</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+
+    <article class="card hover flight-card" data-item data-pref="women">
+      <div class="fc-date"><div class="d">02</div><div class="m">Sep</div></div>
+      <div class="fc-main">
+        <div class="num">QR 018 <span class="badge saffron">Women-only</span></div>
+        <div class="fc-route">Dublin <span class="hop"></span> Doha <span class="hop"></span> Kochi</div>
+        <div class="fc-tags"><span class="badge teal">Onam trip home</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i><i></i></span>2 travellers</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+
+    <article class="card hover flight-card" data-item data-pref="taxi">
+      <div class="fc-date"><div class="d">15</div><div class="m">Aug</div></div>
+      <div class="fc-main">
+        <div class="num">FR 1918</div>
+        <div class="fc-route">Dublin <span class="hop"></span> Lisbon</div>
+        <div class="fc-tags"><span class="badge saffron">Sharing taxi to airport</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i><i></i><i></i></span>3 travellers</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+    <div class="empty" data-empty style="display:none">
+      <strong>No flights match those filters</strong>
+      Try clearing a filter — or post your own flight and start the group.
+    </div>
+  </div>
+
+  <!-- Arriving -->
+  <div id="arriving" data-panel class="flight-list" style="display:none">
+    <article class="card hover flight-card" data-item data-pref="firsttime taxi">
+      <div class="fc-date"><div class="d">14</div><div class="m">Sep</div></div>
+      <div class="fc-main">
+        <div class="num">EI 122 <span class="badge teal">3 matched</span></div>
+        <div class="fc-route">Mumbai <span class="hop"></span> Dublin</div>
+        <div class="fc-tags"><span class="badge teal">First-time flyer friendly</span><span class="badge saffron">Shared taxi from T2</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i><i></i><i></i></span>3 travellers</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+
+    <article class="card hover flight-card" data-item data-pref="firsttime">
+      <div class="fc-date"><div class="d">19</div><div class="m">Sep</div></div>
+      <div class="fc-main">
+        <div class="num">LH 980 <span class="badge saffron">Parents flying alone</span></div>
+        <div class="fc-route">Delhi <span class="hop"></span> Frankfurt <span class="hop"></span> Dublin</div>
+        <div class="fc-tags"><span class="badge teal">Helper wanted for transfer</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i></span>1 traveller</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+
+    <article class="card hover flight-card" data-item data-pref="">
+      <div class="fc-date"><div class="d">28</div><div class="m">Sep</div></div>
+      <div class="fc-main">
+        <div class="num">TP 1332</div>
+        <div class="fc-route">São Paulo <span class="hop"></span> Lisbon <span class="hop"></span> Dublin</div>
+        <div class="fc-tags"><span class="badge teal">New to Ireland — semester start</span></div>
+      </div>
+      <div class="fc-side">
+        <div class="travellers"><span class="dots"><i></i><i></i></span>2 travellers</div>
+        <a class="btn sm" href="login.html">Join group chat</a>
+      </div>
+    </article>
+    <div class="empty" data-empty style="display:none">
+      <strong>No flights match those filters</strong>
+      Try clearing a filter — or post your own flight and start the group.
+    </div>
+  </div>
+
+  <div class="how-strip">
+    <div class="card">
+      <span class="glyph"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>
+      <h4>Post or join a flight</h4>
+      <p>Add your flight number and date. If a group already exists for that flight, you join it instantly.</p>
+    </div>
+    <div class="card">
+      <span class="glyph"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.5-.8L3 20l1-5.2a8.4 8.4 0 1 1 17-3.3z"/></svg></span>
+      <h4>One chat per flight</h4>
+      <p>Everyone on the same plane lands in one group chat — plan seats, taxis and luggage help together.</p>
+    </div>
+    <div class="card">
+      <span class="glyph"><svg viewBox="0 0 24 24"><path d="M10.5 13.5 3 10l1.5-2 6.5 1L17 3.5 19.5 5l-4 6.5 4.5 5-2 1.5-5.5-3.5-3 3.5-1.5-.5.5-4z"/></svg></span>
+      <h4>Land knowing someone</h4>
+      <p>Meet at the gate, share the ride into town, and start your first day in Ireland with a friend.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div><strong style="color:var(--ink)">ZOTO</strong> · Your best friend abroad · Dublin, Ireland</div>
+    <div class="foot-links">
+      <a href="community.html">Community</a><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/zoto.js"></script>
+</body>
+</html>

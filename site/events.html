@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — ZOTO</title>
+<meta name="description" content="What's on in Dublin: newcomer coffee mornings, Diwali nights, salsa socials, cliff walks and more — hosted by the ZOTO community.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,480&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/zoto.css">
+<style>
+  .filters{display:flex;flex-direction:column;gap:14px;margin:28px 0 8px}
+  .month-label{
+    font-family:var(--font-display);font-weight:560;font-size:1.3rem;
+    margin:36px 0 16px;display:flex;align-items:center;gap:16px;
+  }
+  .month-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  .event-list{display:flex;flex-direction:column;gap:14px}
+  .event-card{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;padding:20px 24px}
+  .ev-date{text-align:center;min-width:64px;border-right:1px dashed var(--line);padding-right:18px}
+  .ev-date .d{font-family:var(--font-display);font-size:1.7rem;font-weight:640;line-height:1.1}
+  .ev-date .w{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--saffron-deep)}
+  .ev-main h3{font-size:1.08rem;font-weight:700;margin-bottom:4px}
+  .ev-meta{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:.87rem;color:var(--ink-soft)}
+  .ev-meta svg{width:14px;height:14px;stroke:var(--ink-soft);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;position:relative;top:2px}
+  .ev-side{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
+  .going{font-size:.82rem;color:var(--ink-soft)}
+  .going b{color:var(--teal)}
+  .ev-actions{display:flex;gap:8px;align-items:center}
+  .ics{padding:8px;border-radius:9px;color:var(--ink-soft);border:1px solid var(--line)}
+  .ics:hover{color:var(--teal);border-color:var(--teal)}
+  .ics svg{width:16px;height:16px;display:block;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .price-tag{font-weight:700;font-size:.95rem}
+  .price-tag.free{color:#2E6B2E}
+  .perk-card{border:1px solid rgba(232,133,12,.4);background:linear-gradient(0deg,rgba(232,133,12,.05),rgba(232,133,12,.05)),var(--white)}
+  .perk-kicker{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--saffron-deep)}
+  .host-cta{margin-top:56px}
+  @media (max-width:820px){
+    .event-card{grid-template-columns:1fr}
+    .ev-date{border-right:0;border-bottom:1px dashed var(--line);padding:0 0 10px;text-align:left;display:flex;gap:8px;align-items:baseline}
+    .ev-side{flex-direction:row;justify-content:space-between;align-items:center;width:100%}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="logo" href="index.html">ZOTO<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="flight-buddy.html">Flight Buddy</a>
+      <a href="housing.html">Housing</a>
+      <a href="referrals.html">Referrals</a>
+      <a href="events.html" class="active">Events</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="link-quiet" href="login.html">Sign in</a>
+      <a class="btn saffron sm" href="login.html">Join free</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2D36" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap hero-row">
+    <div>
+      <span class="crumb">As you settle</span>
+      <h1>Events</h1>
+      <p class="sub">What's on in Dublin this month — hosted by the community, open to everyone. RSVP so hosts can plan, and add events straight to your calendar.</p>
+    </div>
+    <a class="btn saffron" href="login.html">Submit an event</a>
+  </div>
+</section>
+
+<div class="wrap" data-filter-scope>
+  <div class="filters">
+    <div class="filter-row" data-filter-group="price">
+      <span class="filter-label">Price</span>
+      <button class="chip" data-value="all" aria-pressed="true">All</button>
+      <button class="chip" data-value="free" aria-pressed="false">Free</button>
+      <button class="chip" data-value="paid" aria-pressed="false">Paid</button>
+    </div>
+    <div class="filter-row" data-filter-group="who">
+      <span class="filter-label">Community</span>
+      <button class="chip" data-value="all" aria-pressed="true">Everyone</button>
+      <button class="chip" data-value="desi" aria-pressed="false">Desi</button>
+      <button class="chip" data-value="latin" aria-pressed="false">Latin</button>
+      <button class="chip" data-value="oriental" aria-pressed="false">East Asian</button>
+    </div>
+  </div>
+
+  <h2 class="month-label">August 2026</h2>
+  <div class="event-list">
+    <article class="card hover event-card" data-item data-price="free" data-who="all">
+      <div class="ev-date"><div class="d">16</div><div class="w">Sun</div></div>
+      <div class="ev-main">
+        <h3>Newcomers coffee morning</h3>
+        <div class="ev-meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Accents Café, D2</span>
+          <span>11:00</span>
+          <span>Open to everyone</span>
+        </div>
+      </div>
+      <div class="ev-side">
+        <span class="price-tag free">Free</span>
+        <div class="ev-actions">
+          <span class="going"><b>24</b> going</span>
+          <button class="ics" aria-label="Add to calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
+          <a class="btn sm" href="login.html">RSVP</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover event-card" data-item data-price="free" data-who="all">
+      <div class="ev-date"><div class="d">18</div><div class="w">Tue</div></div>
+      <div class="ev-main">
+        <h3>Sunday hike — Howth cliff walk</h3>
+        <div class="ev-meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Howth DART station</span>
+          <span>10:30</span>
+          <span>Bring water &amp; layers</span>
+        </div>
+      </div>
+      <div class="ev-side">
+        <span class="price-tag free">Free</span>
+        <div class="ev-actions">
+          <span class="going"><b>31</b> going</span>
+          <button class="ics" aria-label="Add to calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
+          <a class="btn sm" href="login.html">RSVP</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover event-card" data-item data-price="paid" data-who="desi">
+      <div class="ev-date"><div class="d">23</div><div class="w">Sun</div></div>
+      <div class="ev-main">
+        <h3>Diwali night at the Docklands</h3>
+        <div class="ev-meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> The Mayson, D1</span>
+          <span>19:00</span>
+          <span>Dinner + DJ · dress up</span>
+        </div>
+      </div>
+      <div class="ev-side">
+        <span class="price-tag">€18</span>
+        <div class="ev-actions">
+          <span class="going"><b>86</b> going · 14 spots left</span>
+          <button class="ics" aria-label="Add to calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
+          <a class="btn sm" href="login.html">Get ticket</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card event-card perk-card" data-item data-price="all" data-who="all">
+      <div class="ev-date" style="border:none"><span class="glyph"><svg viewBox="0 0 24 24"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 7v14M12 7c-2.5 0-4-1.2-4-3 0-1.4 1-2 2-2 1.8 0 2 2.5 2 5zm0 0c2.5 0 4-1.2 4-3 0-1.4-1-2-2-2-1.8 0-2 2.5-2 5z"/></svg></span></div>
+      <div class="ev-main">
+        <span class="perk-kicker">Partner perk</span>
+        <h3>Chai &amp; Co — 20% off your first order</h3>
+        <div class="ev-meta"><span>Show your ZOTO profile at the counter · Camden St &amp; Smithfield</span></div>
+      </div>
+      <div class="ev-side">
+        <a class="btn saffron sm" href="login.html">Claim perk</a>
+      </div>
+    </article>
+  </div>
+
+  <h2 class="month-label">September 2026</h2>
+  <div class="event-list">
+    <article class="card hover event-card" data-item data-price="paid" data-who="desi">
+      <div class="ev-date"><div class="d">01</div><div class="w">Tue</div></div>
+      <div class="ev-main">
+        <h3>Desi comedy night</h3>
+        <div class="ev-meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> The Workman's Club, D2</span>
+          <span>20:00</span>
+          <span>18+ · English &amp; Hindi sets</span>
+        </div>
+      </div>
+      <div class="ev-side">
+        <span class="price-tag">€12</span>
+        <div class="ev-actions">
+          <span class="going"><b>42</b> going</span>
+          <button class="ics" aria-label="Add to calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
+          <a class="btn sm" href="login.html">Get ticket</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover event-card" data-item data-price="paid" data-who="latin">
+      <div class="ev-date"><div class="d">05</div><div class="w">Sat</div></div>
+      <div class="ev-main">
+        <h3>Salsa social — beginners welcome</h3>
+        <div class="ev-meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Smock Alley, D8</span>
+          <span>19:30</span>
+          <span>Lesson first hour · no partner needed</span>
+        </div>
+      </div>
+      <div class="ev-side">
+        <span class="price-tag">€10</span>
+        <div class="ev-actions">
+          <span class="going"><b>57</b> going</span>
+          <button class="ics" aria-label="Add to calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
+          <a class="btn sm" href="login.html">Get ticket</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover event-card" data-item data-price="free" data-who="oriental">
+      <div class="ev-date"><div class="d">12</div><div class="w">Sat</div></div>
+      <div class="ev-main">
+        <h3>Mid-Autumn Festival picnic</h3>
+        <div class="ev-meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> St Stephen's Green</span>
+          <span>14:00</span>
+          <span>Mooncakes provided · families welcome</span>
+        </div>
+      </div>
+      <div class="ev-side">
+        <span class="price-tag free">Free</span>
+        <div class="ev-actions">
+          <span class="going"><b>29</b> going</span>
+          <button class="ics" aria-label="Add to calendar"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></button>
+          <a class="btn sm" href="login.html">RSVP</a>
+        </div>
+      </div>
+    </article>
+    <div class="empty" data-empty style="display:none">
+      <strong>No events match those filters</strong>
+      Clear a filter — or be the person who hosts the first one.
+    </div>
+  </div>
+
+  <div class="notice info host-cta" role="note">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+    <span><strong>Want to host something?</strong> Community-hosted events get free promotion, an RSVP page, and help finding a venue. Recurring formats (like the monthly newcomers coffee) are the ones people remember.</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div><strong style="color:var(--ink)">ZOTO</strong> · Your best friend abroad · Dublin, Ireland</div>
+    <div class="foot-links">
+      <a href="community.html">Community</a><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/zoto.js"></script>
+</body>
+</html>

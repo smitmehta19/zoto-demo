@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZOTO — Option C · Night Flight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0F1C;
+    --surface:#121829;
+    --surface-2:#1A2138;
+    --text:#EAEFF9;
+    --muted:#93A0B8;
+    --amber:#FFB454;
+    --coral:#F0637A;
+    --violet:#8B7CFF;
+    --border:rgba(255,255,255,.08);
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);color:var(--text);
+    line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:4px}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .display{font-family:'Sora',sans-serif}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(11,15,28,.8);backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .logo{font-family:'Sora',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.06em}
+  .logo i{font-style:normal;background:linear-gradient(100deg,var(--amber),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .nav-links{display:flex;gap:26px;align-items:center;font-size:.92rem;font-weight:500}
+  .nav-links a{color:var(--muted);transition:color .15s}
+  .nav-links a:hover{color:var(--text)}
+  .btn{
+    display:inline-block;padding:11px 22px;border-radius:12px;font-weight:600;font-size:.92rem;
+    background:linear-gradient(100deg,var(--amber),var(--coral));color:#14100A;
+    transition:transform .18s, box-shadow .18s;
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px -8px rgba(240,99,122,.5)}
+  .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border)}
+  .btn.ghost:hover{border-color:rgba(255,255,255,.25);box-shadow:none}
+  .menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;padding:96px 0 80px;overflow:hidden;text-align:center}
+  .sky{position:absolute;inset:0;pointer-events:none}
+  .sky::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(45% 55% at 18% 8%, rgba(139,124,255,.16), transparent 65%),
+      radial-gradient(55% 60% at 85% 100%, rgba(255,180,84,.12), transparent 65%);
+  }
+  .star{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.6);animation:twinkle 4s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
+  .hero-inner{position:relative}
+  .eyebrow{
+    display:inline-block;font-size:.78rem;font-weight:600;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--amber);margin-bottom:22px;
+  }
+  h1{
+    font-family:'Sora',sans-serif;font-weight:600;
+    font-size:clamp(2.6rem,6vw,4.4rem);line-height:1.05;letter-spacing:-.02em;
+    max-width:800px;margin:0 auto 20px;
+  }
+  h1 .grad{background:linear-gradient(100deg,var(--amber) 10%,var(--coral) 55%,var(--violet) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lede{font-size:1.12rem;color:var(--muted);max-width:540px;margin:0 auto 36px}
+  .hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:64px}
+
+  /* Flight arc */
+  .arc-wrap{max-width:760px;margin:0 auto;position:relative}
+  .arc-svg{width:100%;height:auto;display:block;overflow:visible}
+  .arc-path{fill:none;stroke:url(#arcGrad);stroke-width:2;stroke-dasharray:6 8;stroke-linecap:round}
+  .plane-dot{fill:var(--amber);filter:drop-shadow(0 0 8px rgba(255,180,84,.9))}
+  .arc-city{font-family:'Sora',sans-serif;font-weight:700;font-size:26px;fill:var(--text)}
+  .arc-sub{font-family:'Inter',sans-serif;font-size:12px;fill:var(--muted)}
+  .arc-caption{
+    position:absolute;left:50%;top:8%;translate:-50% 0;
+    background:var(--surface);border:1px solid var(--border);border-radius:999px;
+    padding:8px 18px;font-size:.82rem;color:var(--muted);white-space:nowrap;
+  }
+  .arc-caption b{color:var(--text)}
+
+  /* ---------- Stats ---------- */
+  .stats{border-block:1px solid var(--border);background:rgba(255,255,255,.02)}
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:36px 0;text-align:center}
+  .stat .n{font-family:'Sora',sans-serif;font-size:1.9rem;font-weight:700;background:linear-gradient(100deg,var(--amber),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .l{font-size:.85rem;color:var(--muted)}
+
+  /* ---------- Services ---------- */
+  .section{padding:88px 0}
+  .section-head{max-width:620px;margin-bottom:52px}
+  .section-head.center{margin-inline:auto;text-align:center}
+  h2{font-family:'Sora',sans-serif;font-weight:600;font-size:clamp(1.8rem,3.6vw,2.6rem);letter-spacing:-.015em;line-height:1.15;margin-bottom:12px}
+  .section-head p{color:var(--muted);font-size:1.02rem}
+  .kicker{font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--violet);display:block;margin-bottom:14px}
+
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:28px;position:relative;overflow:hidden;
+    transition:transform .2s, border-color .2s;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--amber),var(--coral),var(--violet));
+    opacity:0;transition:opacity .2s;
+  }
+  .card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.16)}
+  .card:hover::before{opacity:1}
+  .card h3{font-family:'Sora',sans-serif;font-size:1.12rem;font-weight:600;margin:18px 0 8px;display:flex;align-items:center;gap:10px}
+  .card p{font-size:.93rem;color:var(--muted)}
+  .card .go{display:inline-block;margin-top:16px;font-size:.87rem;font-weight:600;color:var(--amber)}
+  .icon{
+    width:44px;height:44px;border-radius:12px;
+    background:var(--surface-2);border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .icon svg{width:20px;height:20px;stroke:var(--amber);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .card.soon .icon svg{stroke:var(--violet)}
+  .soon-tag{
+    margin-left:auto;font-size:.64rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--violet);border:1px solid rgba(139,124,255,.4);padding:3px 9px;border-radius:999px;
+  }
+
+  /* ---------- Timeline quote ---------- */
+  .quote-band{max-width:760px;margin:0 auto;text-align:center}
+  .quote-band blockquote{
+    font-family:'Sora',sans-serif;font-weight:500;
+    font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.5;letter-spacing:-.01em;margin-bottom:24px;
+  }
+  .quote-band blockquote span{color:var(--amber)}
+  .quote-band .who{color:var(--muted);font-size:.92rem}
+  .quote-band .who b{color:var(--text)}
+
+  /* ---------- CTA ---------- */
+  .cta-card{
+    border-radius:24px;padding:clamp(44px,6vw,80px);text-align:center;
+    background:
+      radial-gradient(70% 100% at 50% 0%, rgba(139,124,255,.18), transparent 70%),
+      var(--surface);
+    border:1px solid var(--border);position:relative;overflow:hidden;
+  }
+  .cta-card p{color:var(--muted);max-width:460px;margin:10px auto 32px}
+
+  footer{padding:44px 0;border-top:1px solid var(--border);margin-top:88px;font-size:.9rem;color:var(--muted)}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .foot-links{display:flex;gap:22px}
+  .foot-links a:hover{color:var(--text)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important;scroll-behavior:auto}
+    .plane-dot{display:none}
+  }
+  @media (max-width:960px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .stats-row{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width:720px){
+    .nav-links{
+      display:none;position:absolute;top:66px;left:0;right:0;background:var(--bg);
+      border-bottom:1px solid var(--border);flex-direction:column;
+      padding:20px 24px;gap:18px;align-items:flex-start;
+    }
+    .nav-links.open{display:flex}
+    .menu-toggle{display:block}
+    .hero{padding:64px 0 52px}
+    .grid{grid-template-columns:1fr}
+    .arc-caption{position:static;translate:none;display:inline-block;margin-bottom:16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">ZO<i>TO</i></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#services">Flight Buddy</a>
+      <a href="#services">Housing</a>
+      <a href="#services">Referrals</a>
+      <a href="#services">Events</a>
+      <a href="#services">Community</a>
+      <a class="btn" href="#join">Join free</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false" onclick="const n=document.getElementById('navLinks');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EAEFF9" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="sky" aria-hidden="true">
+    <span class="star" style="top:12%;left:8%"></span>
+    <span class="star" style="top:28%;left:22%;animation-delay:1.2s"></span>
+    <span class="star" style="top:9%;left:46%;animation-delay:2.1s"></span>
+    <span class="star" style="top:20%;left:71%;animation-delay:.6s"></span>
+    <span class="star" style="top:38%;left:88%;animation-delay:1.7s"></span>
+    <span class="star" style="top:52%;left:14%;animation-delay:2.6s"></span>
+    <span class="star" style="top:60%;left:92%;animation-delay:3.2s"></span>
+  </div>
+  <div class="wrap hero-inner">
+    <span class="eyebrow">Dublin, Ireland</span>
+    <h1>Your best friend <span class="grad">abroad</span></h1>
+    <p class="lede">The community platform for Desis in Ireland. A flight buddy before takeoff, a room when you land, a referral when you're ready.</p>
+    <div class="hero-ctas">
+      <a class="btn" href="#join">Join the community</a>
+      <a class="btn ghost" href="#services">Explore services</a>
+    </div>
+    <div class="arc-wrap">
+      <span class="arc-caption"><b>612 journeys</b> shared this year</span>
+      <svg class="arc-svg" viewBox="0 0 760 240" role="img" aria-label="Flight route from Mumbai to Dublin">
+        <defs>
+          <linearGradient id="arcGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#FFB454"/>
+            <stop offset=".55" stop-color="#F0637A"/>
+            <stop offset="1" stop-color="#8B7CFF"/>
+          </linearGradient>
+        </defs>
+        <path id="flightArc" class="arc-path" d="M 80 200 Q 380 20 680 200"/>
+        <circle class="plane-dot" r="6">
+          <animateMotion dur="7s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#flightArc"/>
+          </animateMotion>
+        </circle>
+        <circle cx="80" cy="200" r="5" fill="#FFB454"/>
+        <circle cx="680" cy="200" r="5" fill="#8B7CFF"/>
+        <text class="arc-city" x="80" y="232" text-anchor="middle">BOM</text>
+        <text class="arc-sub" x="80" y="248" text-anchor="middle" opacity=".0"> </text>
+        <text class="arc-city" x="680" y="232" text-anchor="middle">DUB</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="wrap stats-row">
+    <div class="stat"><div class="n">4,000+</div><div class="l">members in Ireland</div></div>
+    <div class="stat"><div class="n">600+</div><div class="l">flight buddies matched</div></div>
+    <div class="stat"><div class="n">350+</div><div class="l">rooms found</div></div>
+    <div class="stat"><div class="n">120+</div><div class="l">job referrals made</div></div>
+  </div>
+</div>
+
+<section class="section wrap" id="services">
+  <div class="section-head">
+    <span class="kicker">What ZOTO does</span>
+    <h2>Five services. One soft landing.</h2>
+    <p>Everything a new arrival needs, run by people who landed before you and remember exactly how it felt.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M10.5 13.5 3 10l1.5-2 6.5 1L17 3.5 19.5 5l-4 6.5 4.5 5-2 1.5-5.5-3.5-3 3.5-1.5-.5.5-4z"/></svg></div>
+      <h3>Flight Buddy</h3>
+      <p>Match with members on your exact flight to or from India. Travel with company and split the airport taxi.</p>
+      <a class="go" href="#">Find your flight →</a>
+    </div>
+    <div class="card">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></div>
+      <h3>Housing</h3>
+      <p>Member-to-member rooms and flatmate listings — vetted inside the community before they go public.</p>
+      <a class="go" href="#">Browse rooms →</a>
+    </div>
+    <div class="card">
+      <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+      <h3>Job Referrals</h3>
+      <p>Members working at Irish companies refer your CV internally. A warm intro beats a cold application.</p>
+      <a class="go" href="#">Request a referral →</a>
+    </div>
+    <div class="card">
+      <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg></div>
+      <h3>Events</h3>
+      <p>Diwali nights, cricket screenings, hikes and new-arrival mixers across Dublin and beyond.</p>
+      <a class="go" href="#">See what's on →</a>
+    </div>
+    <div class="card">
+      <div class="icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="16" cy="9" r="2.5"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5"/><path d="M14.5 14.5c2.5.2 4.5 2 4.5 4.5"/></svg></div>
+      <h3>Community</h3>
+      <p>County-by-county groups for the everyday questions — PPS numbers, GP registration, good chai.</p>
+      <a class="go" href="#">Join a group →</a>
+    </div>
+    <div class="card soon">
+      <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/><circle cx="12" cy="12" r="9"/></svg></div>
+      <h3>On the roadmap <span class="soon-tag">Soon</span></h3>
+      <p>Partner perks, Schengen visa guidance, and part-time jobs for students — voted on by members.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap quote-band">
+    <blockquote>"I messaged my flight buddy from the boarding gate in Mumbai. By the time we landed we'd <span>already split a taxi</span> and she'd told me which SIM to buy."</blockquote>
+    <div class="who"><b>Ananya S.</b> · moved from Pune, Sep 2025</div>
+  </div>
+</section>
+
+<section class="section wrap" id="join">
+  <div class="cta-card">
+    <h2>Land softly. Rise fast.</h2>
+    <p>Free to join, two minutes to set up. 4,000 people are already holding the door open.</p>
+    <a class="btn" href="#">Join ZOTO free</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div><b style="color:var(--text)">ZOTO</b> · Your best friend abroad · Dublin, Ireland</div>
+    <div class="foot-links">
+      <a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

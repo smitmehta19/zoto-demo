@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in — ZOTO</title>
+<meta name="description" content="Sign in to ZOTO or create a free account.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,480&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/zoto.css">
+<style>
+  body{min-height:100vh;display:flex;flex-direction:column}
+  .auth-shell{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 68px)}
+
+  /* Left — brand panel */
+  .auth-brand{
+    background:var(--sand);padding:64px 56px;
+    display:flex;flex-direction:column;justify-content:space-between;gap:40px;
+  }
+  .auth-brand .pitch h1{font-size:clamp(1.9rem,3vw,2.6rem);line-height:1.15;margin-bottom:14px}
+  .auth-brand .pitch h1 em{font-style:italic;font-weight:480;color:var(--saffron-deep)}
+  .auth-brand .pitch p{color:var(--ink-soft);max-width:26rem}
+  .mini-journey{display:flex;flex-direction:column;gap:0;margin-top:36px}
+  .mj-step{display:flex;gap:14px;align-items:flex-start;position:relative;padding-bottom:22px}
+  .mj-step:last-child{padding-bottom:0}
+  .mj-dot{
+    width:28px;height:28px;border-radius:50%;flex:none;background:var(--white);
+    border:2px solid var(--saffron);display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-weight:640;font-size:.8rem;color:var(--saffron-deep);
+    position:relative;z-index:1;
+  }
+  .mj-step:not(:last-child)::before{
+    content:"";position:absolute;left:13px;top:30px;bottom:-2px;width:2px;
+    background:repeating-linear-gradient(180deg,rgba(31,45,54,.25) 0 5px,transparent 5px 10px);
+  }
+  .mj-step b{display:block;font-size:.95rem}
+  .mj-step span{font-size:.85rem;color:var(--ink-soft)}
+  .auth-quote{font-family:var(--font-display);font-style:italic;font-weight:480;font-size:1.05rem;line-height:1.5;color:var(--ink);max-width:26rem}
+  .auth-quote footer{font-family:var(--font-body);font-style:normal;font-size:.85rem;color:var(--ink-soft);margin-top:10px}
+
+  /* Right — form panel */
+  .auth-form-panel{display:flex;align-items:center;justify-content:center;padding:48px 24px}
+  .auth-card{width:100%;max-width:420px}
+  .auth-card .tabs{width:100%;display:flex;margin-bottom:28px}
+  .auth-card .tab{flex:1;text-align:center}
+  .auth-card h2{font-family:var(--font-display);font-weight:560;font-size:1.6rem;margin-bottom:6px}
+  .auth-card .sub{color:var(--ink-soft);font-size:.95rem;margin-bottom:26px}
+  .auth-fields{display:flex;flex-direction:column;gap:16px}
+  .divider{display:flex;align-items:center;gap:14px;color:var(--ink-soft);font-size:.8rem;margin:22px 0;text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+  .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
+  .btn-google{
+    display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+    background:var(--white);border:1px solid var(--line);border-radius:999px;
+    padding:12px;font-weight:600;font-size:.95rem;transition:box-shadow .2s;
+  }
+  .btn-google:hover{box-shadow:0 4px 14px rgba(31,45,54,.1)}
+  .legal{font-size:.8rem;color:var(--ink-soft);margin-top:22px;text-align:center}
+  .legal a{color:var(--teal);font-weight:600}
+  .member-note{margin-top:26px}
+  .member-note .small{font-size:.83rem}
+
+  @media (max-width:900px){
+    .auth-shell{grid-template-columns:1fr;min-height:0}
+    .auth-brand{order:2;padding:44px 24px}
+    .auth-quote{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="logo" href="index.html">ZOTO<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="flight-buddy.html">Flight Buddy</a>
+      <a href="housing.html">Housing</a>
+      <a href="referrals.html">Referrals</a>
+      <a href="events.html">Events</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="nav-cta">
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2D36" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="auth-shell">
+  <aside class="auth-brand">
+    <div class="pitch">
+      <h1>Your first friend in Ireland is <em>two minutes away</em>.</h1>
+      <p>One free account unlocks every ZOTO service — and your profile carries one verified identity across all of them.</p>
+      <div class="mini-journey">
+        <div class="mj-step"><span class="mj-dot">1</span><div><b>Before you fly</b><span>Flight buddies on your exact plane</span></div></div>
+        <div class="mj-step"><span class="mj-dot">2</span><div><b>When you land</b><span>Verified rooms and flatmates</span></div></div>
+        <div class="mj-step"><span class="mj-dot">3</span><div><b>As you settle</b><span>Referrals, events, your community</span></div></div>
+      </div>
+    </div>
+    <blockquote class="auth-quote">
+      "Signed up at the airport, had a flight buddy by boarding, a room viewing by Friday."
+      <footer>Ananya S. · moved from Pune, Sep 2025</footer>
+    </blockquote>
+  </aside>
+
+  <main class="auth-form-panel" data-tab-scope>
+    <div class="auth-card">
+      <div class="tabs" role="tablist" aria-label="Sign in or create account">
+        <button class="tab" role="tab" data-tab="signin" aria-selected="true">Sign in</button>
+        <button class="tab" role="tab" data-tab="signup" aria-selected="false">Create account</button>
+      </div>
+
+      <!-- Sign in -->
+      <section id="signin" data-panel>
+        <h2>Welcome back</h2>
+        <p class="sub">We'll email you a one-time code — no password to remember.</p>
+        <form class="auth-fields" onsubmit="return false">
+          <div class="field">
+            <label for="si-email">Email</label>
+            <input class="input" id="si-email" type="email" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <button class="btn saffron block" type="submit">Email me a code</button>
+        </form>
+        <div class="divider">or</div>
+        <button class="btn-google" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.4a5.5 5.5 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.6-5.2 3.6-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3a7.2 7.2 0 0 1-10.8-3.8H1.2v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.2a12 12 0 0 0 0 10.8l4.1-3.1z"/><path fill="#EA4335" d="M12 4.7c1.8 0 3.3.6 4.6 1.8L20 3.1A12 12 0 0 0 1.2 6.6l4.1 3.1A7.2 7.2 0 0 1 12 4.7z"/></svg>
+          Continue with Google
+        </button>
+        <p class="legal">Trouble signing in? <a href="#">Contact support</a></p>
+      </section>
+
+      <!-- Sign up -->
+      <section id="signup" data-panel style="display:none">
+        <h2>Join ZOTO free</h2>
+        <p class="sub">Two minutes now, a soft landing later. Verification keeps every space scam-free.</p>
+        <form class="auth-fields" onsubmit="return false">
+          <div class="field">
+            <label for="su-name">Full name</label>
+            <input class="input" id="su-name" type="text" placeholder="Your name" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="su-email">Email</label>
+            <input class="input" id="su-email" type="email" placeholder="you@example.com" autocomplete="email">
+            <span class="hint">A college or work email speeds up verification.</span>
+          </div>
+          <div class="field">
+            <label for="su-status">Where are you in the journey?</label>
+            <select class="input" id="su-status">
+              <option>Moving to Ireland soon</option>
+              <option>Just landed — first 3 months</option>
+              <option>Settled — here over a year</option>
+            </select>
+          </div>
+          <button class="btn saffron block" type="submit">Create my account</button>
+        </form>
+        <div class="divider">or</div>
+        <button class="btn-google" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.4a5.5 5.5 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.6-5.2 3.6-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3a7.2 7.2 0 0 1-10.8-3.8H1.2v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6H1.2a12 12 0 0 0 0 10.8l4.1-3.1z"/><path fill="#EA4335" d="M12 4.7c1.8 0 3.3.6 4.6 1.8L20 3.1A12 12 0 0 0 1.2 6.6l4.1 3.1A7.2 7.2 0 0 1 12 4.7z"/></svg>
+          Continue with Google
+        </button>
+        <p class="legal">By joining you agree to the <a href="#">community guidelines</a> and <a href="#">privacy policy</a>.</p>
+        <div class="notice info member-note" role="note">
+          <svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.9L12 16.4l-5.2 2.8 1-5.9L3.5 9.2l5.9-.9z"/></svg>
+          <span class="small"><strong>ZOTO is free.</strong> An optional supporter membership (early listing access, event discounts) is coming later — you'll never pay to ask for help.</span>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+
+<script src="assets/zoto.js"></script>
+</body>
+</html>

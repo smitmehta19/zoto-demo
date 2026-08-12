@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Housing — ZOTO</title>
+<meta name="description" content="Rooms offered and wanted across Dublin, posted by verified ZOTO members. No fake landlords, no deposit scams.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,480&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/zoto.css">
+<style>
+  .filters{display:flex;flex-direction:column;gap:14px;margin:28px 0 28px}
+  .listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+  .listing{padding:0;overflow:hidden;display:flex;flex-direction:column}
+  .photos{display:grid;grid-template-columns:2fr 1fr;gap:3px;height:170px}
+  .photos .ph{background:var(--sand);position:relative;overflow:hidden}
+  .photos .ph::after{content:"";position:absolute;inset:0}
+  .ph.a{background:linear-gradient(135deg,#DCC9A6,#B98F55)}
+  .ph.b{background:linear-gradient(135deg,#9FB9B3,#5E837C)}
+  .ph.c{background:linear-gradient(135deg,#E3D2BC,#C4A276)}
+  .ph.d{background:linear-gradient(135deg,#C7D6CE,#7FA294)}
+  .ph.e{background:linear-gradient(135deg,#E8D9C0,#A98E62)}
+  .ph.f{background:linear-gradient(135deg,#B9C9C4,#6E8F86)}
+  .photos .count{
+    position:absolute;right:8px;bottom:8px;background:rgba(31,45,54,.72);color:#fff;
+    font-size:.72rem;font-weight:600;padding:3px 9px;border-radius:999px;
+  }
+  .listing-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .listing-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .listing h3{font-size:1.08rem;font-weight:700;line-height:1.35}
+  .price{font-family:var(--font-display);font-weight:640;font-size:1.25rem;white-space:nowrap}
+  .price span{font-size:.75rem;color:var(--ink-soft);font-family:var(--font-body);font-weight:500}
+  .meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:.85rem;color:var(--ink-soft)}
+  .meta span{display:inline-flex;align-items:center;gap:5px}
+  .meta svg{width:14px;height:14px;stroke:var(--ink-soft);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .listing-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid var(--line-soft)}
+  .poster{display:flex;align-items:center;gap:9px;font-size:.84rem}
+  .poster .avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--teal))}
+  .expires{font-size:.78rem;color:var(--ink-soft)}
+  .expires.hot{color:var(--saffron-deep);font-weight:600}
+  .save{padding:6px;border-radius:8px;color:var(--ink-soft)}
+  .save:hover{background:var(--sand);color:var(--saffron-deep)}
+  .save svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
+  .area-row{display:flex;gap:12px;flex-wrap:wrap}
+  .area-row .input{max-width:220px}
+  .trust-note{margin-top:56px}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="logo" href="index.html">ZOTO<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="flight-buddy.html">Flight Buddy</a>
+      <a href="housing.html" class="active">Housing</a>
+      <a href="referrals.html">Referrals</a>
+      <a href="events.html">Events</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="link-quiet" href="login.html">Sign in</a>
+      <a class="btn saffron sm" href="login.html">Join free</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2D36" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap hero-row">
+    <div>
+      <span class="crumb">When you land</span>
+      <h1>Housing</h1>
+      <p class="sub">Rooms offered and wanted across Dublin, posted by verified members. Listings appear here 48 hours before they go public — being early is the membership perk.</p>
+    </div>
+    <a class="btn saffron" href="login.html">Post a listing</a>
+  </div>
+</section>
+
+<div class="wrap" data-filter-scope>
+  <div class="filters">
+    <div class="filter-row" data-filter-group="kind">
+      <span class="filter-label">Type</span>
+      <button class="chip" data-value="all" aria-pressed="true">All</button>
+      <button class="chip" data-value="available" aria-pressed="false">Rooms available</button>
+      <button class="chip" data-value="looking" aria-pressed="false">People looking</button>
+    </div>
+    <div class="filter-row" data-filter-group="term">
+      <span class="filter-label">Length</span>
+      <button class="chip" data-value="all" aria-pressed="true">Any</button>
+      <button class="chip" data-value="long" aria-pressed="false">Long-term</button>
+      <button class="chip" data-value="short" aria-pressed="false">Short-term</button>
+    </div>
+    <div class="filter-row" data-filter-group="price">
+      <span class="filter-label">Budget</span>
+      <button class="chip" data-value="all" aria-pressed="true">Any price</button>
+      <button class="chip" data-value="p1" aria-pressed="false">Under €800</button>
+      <button class="chip" data-value="p2" aria-pressed="false">€800–1200</button>
+      <button class="chip" data-value="p3" aria-pressed="false">€1200+</button>
+    </div>
+    <div class="area-row">
+      <select class="input" aria-label="Area">
+        <option>All areas</option><option>D1 — North City</option><option>D2 — City Centre</option>
+        <option>D4 — Ballsbridge</option><option>D6 — Rathmines</option><option>D8 — Portobello</option>
+        <option>D9 — Drumcondra</option><option>D15 — Blanchardstown</option><option>D24 — Tallaght</option>
+      </select>
+      <input class="input" type="number" placeholder="Max € / month" aria-label="Maximum monthly rent" style="max-width:180px">
+    </div>
+  </div>
+
+  <div class="listing-grid">
+    <article class="card hover listing" data-item data-kind="available" data-term="long" data-price="p2">
+      <div class="photos"><div class="ph a"></div><div class="ph b"><span class="count">5 photos</span></div></div>
+      <div class="listing-body">
+        <div class="listing-top">
+          <h3>Sunny ensuite room by the canal</h3>
+          <div class="price">€950<span> /mo</span></div>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>D8 · Portobello</span>
+          <span>Ensuite</span><span>Long-term</span><span>2 flatmates</span>
+        </div>
+        <div class="meta"><span class="badge teal">Veg-friendly household</span></div>
+        <div class="listing-foot">
+          <div class="poster"><span class="avatar"></span><span>Rahul M. <span class="badge verified">Verified</span></span></div>
+          <div class="row" style="gap:6px">
+            <span class="expires">Expires in 5 days</span>
+            <button class="save" aria-label="Save listing"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover listing" data-item data-kind="available" data-term="long" data-price="p1">
+      <div class="photos"><div class="ph c"></div><div class="ph d"><span class="count">3 photos</span></div></div>
+      <div class="listing-body">
+        <div class="listing-top">
+          <h3>Room in a calm veggie household</h3>
+          <div class="price">€780<span> /mo</span></div>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>D4 · Ballsbridge</span>
+          <span>Shared bathroom</span><span>Long-term</span><span>Bills included</span>
+        </div>
+        <div class="meta"><span class="badge teal">Women-only house</span></div>
+        <div class="listing-foot">
+          <div class="poster"><span class="avatar" style="background:linear-gradient(135deg,var(--teal),#8FB5AD)"></span><span>Meera K. <span class="badge verified">Verified</span></span></div>
+          <div class="row" style="gap:6px">
+            <span class="expires hot">Expires in 2 days</span>
+            <button class="save" aria-label="Save listing"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover listing" data-item data-kind="looking" data-term="long" data-price="p2">
+      <div class="photos"><div class="ph e"></div><div class="ph f"></div></div>
+      <div class="listing-body">
+        <div class="listing-top">
+          <h3>Software engineer looking for a room from October</h3>
+          <div class="price">€1,100<span> max</span></div>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>D2 or nearby</span>
+          <span>Ensuite preferred</span><span>Long-term</span><span>Non-smoker</span>
+        </div>
+        <div class="meta"><span class="badge saffron">Looking for a room</span></div>
+        <div class="listing-foot">
+          <div class="poster"><span class="avatar" style="background:linear-gradient(135deg,#D9A441,var(--saffron-deep))"></span><span>Carlos R. <span class="badge verified">Verified</span></span></div>
+          <div class="row" style="gap:6px">
+            <span class="expires">Expires in 6 days</span>
+            <button class="save" aria-label="Save listing"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover listing" data-item data-kind="available" data-term="short" data-price="p1">
+      <div class="photos"><div class="ph b"></div><div class="ph e"><span class="count">4 photos</span></div></div>
+      <div class="listing-body">
+        <div class="listing-top">
+          <h3>Short-let single room near DCU, Sep–Dec</h3>
+          <div class="price">€620<span> /mo</span></div>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>D9 · Drumcondra</span>
+          <span>Single</span><span>Short-term</span><span>10 min to DCU</span>
+        </div>
+        <div class="meta"><span class="badge teal">Student-friendly</span></div>
+        <div class="listing-foot">
+          <div class="poster"><span class="avatar" style="background:linear-gradient(135deg,#7FA294,var(--teal))"></span><span>Anh T. <span class="badge verified">Verified</span></span></div>
+          <div class="row" style="gap:6px">
+            <span class="expires">Expires in 4 days</span>
+            <button class="save" aria-label="Save listing"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover listing" data-item data-kind="available" data-term="long" data-price="p3">
+      <div class="photos"><div class="ph d"></div><div class="ph a"><span class="count">7 photos</span></div></div>
+      <div class="listing-body">
+        <div class="listing-top">
+          <h3>Large double in a new-build, city views</h3>
+          <div class="price">€1,350<span> /mo</span></div>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>D1 · North Docks</span>
+          <span>Ensuite</span><span>Long-term</span><span>Gym in building</span>
+        </div>
+        <div class="meta"><span class="badge teal">Professional household</span></div>
+        <div class="listing-foot">
+          <div class="poster"><span class="avatar" style="background:linear-gradient(135deg,var(--saffron),#B98F55)"></span><span>Diego F. <span class="badge verified">Verified</span></span></div>
+          <div class="row" style="gap:6px">
+            <span class="expires">Expires in 7 days</span>
+            <button class="save" aria-label="Save listing"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="card hover listing" data-item data-kind="looking" data-term="short" data-price="p1">
+      <div class="photos"><div class="ph f"></div><div class="ph c"></div></div>
+      <div class="listing-body">
+        <div class="listing-top">
+          <h3>Master's student needs a room for one semester</h3>
+          <div class="price">€700<span> max</span></div>
+        </div>
+        <div class="meta">
+          <span><svg viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>Near UCD</span>
+          <span>Any room type</span><span>Short-term</span><span>Quiet, tidy</span>
+        </div>
+        <div class="meta"><span class="badge saffron">Looking for a room</span></div>
+        <div class="listing-foot">
+          <div class="poster"><span class="avatar" style="background:linear-gradient(135deg,#8FB5AD,#5E837C)"></span><span>Lin W. <span class="badge verified">Verified</span></span></div>
+          <div class="row" style="gap:6px">
+            <span class="expires">Expires in 3 days</span>
+            <button class="save" aria-label="Save listing"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="empty" data-empty style="display:none;grid-column:1/-1">
+      <strong>Nothing matches those filters</strong>
+      Widen your budget or clear a filter — new listings are posted daily.
+    </div>
+  </div>
+
+  <div class="notice info trust-note" role="note">
+    <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.2 8.4-7 10-3.8-1.6-7-5-7-10V6z"/><path d="m9.5 12 2 2 3.5-3.5"/></svg>
+    <span><strong>How we keep this safe:</strong> every poster is identity-verified, listings expire automatically after 7 days, and payments or deposits are never handled through chat. Report anything that feels off — reports are reviewed within 24 hours.</span>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div><strong style="color:var(--ink)">ZOTO</strong> · Your best friend abroad · Dublin, Ireland</div>
+    <div class="foot-links">
+      <a href="community.html">Community</a><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/zoto.js"></script>
+</body>
+</html>

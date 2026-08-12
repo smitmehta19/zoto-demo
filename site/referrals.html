@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Referrals — ZOTO</title>
+<meta name="description" content="Members refer members. Get your CV in front of hiring managers at Irish companies through people who'll vouch for you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,560;0,9..144,640;1,9..144,480&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/zoto.css">
+<style>
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin:28px 0 20px}
+  .search-co{display:flex;gap:10px;flex:1;max-width:380px}
+  .search-co .input{flex:1}
+
+  .co-list{display:flex;flex-direction:column;gap:12px}
+  .co-row{display:flex;align-items:center;gap:18px;padding:18px 22px}
+  .co-logo{
+    width:46px;height:46px;border-radius:12px;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--font-display);font-weight:640;font-size:1.15rem;color:#fff;
+  }
+  .co-main{flex:1;min-width:0}
+  .co-main h3{font-size:1.02rem;font-weight:700}
+  .co-main .sub{font-size:.85rem;color:var(--ink-soft);display:flex;gap:12px;flex-wrap:wrap}
+  .co-side{display:flex;align-items:center;gap:14px}
+  .hiring{display:none}
+  @media(min-width:640px){.hiring{display:inline-flex}}
+
+  .req-row{display:flex;align-items:center;gap:18px;padding:18px 22px}
+  .req-main{flex:1}
+  .req-main h3{font-size:1rem;font-weight:700}
+  .req-main .sub{font-size:.85rem;color:var(--ink-soft)}
+  .status{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:600}
+  .status i{width:8px;height:8px;border-radius:50%;font-style:normal}
+  .status.requested i{background:#B9A26B}
+  .status.viewed i{background:var(--saffron)}
+  .status.referred i{background:var(--teal)}
+
+  .perk-row{border:1px solid rgba(232,133,12,.4);background:linear-gradient(0deg,rgba(232,133,12,.05),rgba(232,133,12,.05)),var(--white)}
+  .perk-kicker{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--saffron-deep)}
+
+  .side-note{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .side-note .card h4{font-weight:700;margin:12px 0 6px}
+  .side-note .card p{font-size:.92rem;color:var(--ink-soft)}
+  @media(max-width:820px){
+    .side-note{grid-template-columns:1fr}
+    .toolbar{flex-direction:column;align-items:stretch}
+    .search-co{max-width:none}
+    .co-row{flex-wrap:wrap}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="logo" href="index.html">ZOTO<span>.</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="flight-buddy.html">Flight Buddy</a>
+      <a href="housing.html">Housing</a>
+      <a href="referrals.html" class="active">Referrals</a>
+      <a href="events.html">Events</a>
+      <a href="community.html">Community</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="link-quiet" href="login.html">Sign in</a>
+      <a class="btn saffron sm" href="login.html">Join free</a>
+      <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1F2D36" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap hero-row">
+    <div>
+      <span class="crumb">As you settle</span>
+      <h1>Job Referrals</h1>
+      <p class="sub">Members working at Irish companies refer your CV internally. A warm introduction beats a cold application — and referrers earn community recognition for every person they help.</p>
+    </div>
+    <a class="btn saffron" href="login.html">Offer referrals at my company</a>
+  </div>
+</section>
+
+<div class="wrap" data-tab-scope>
+  <div class="toolbar">
+    <div class="tabs" role="tablist" aria-label="Referral views">
+      <button class="tab" role="tab" data-tab="companies" aria-selected="true">Companies</button>
+      <button class="tab" role="tab" data-tab="open-requests" aria-selected="false">Open requests</button>
+      <button class="tab" role="tab" data-tab="my-requests" aria-selected="false">My requests</button>
+    </div>
+    <form class="search-co" onsubmit="return false" aria-label="Search companies">
+      <input class="input" type="text" placeholder="Search company or role — e.g. Stripe, analyst">
+      <button class="btn sm" type="submit">Search</button>
+    </form>
+  </div>
+
+  <!-- Companies -->
+  <div id="companies" data-panel class="co-list">
+    <article class="card hover co-row">
+      <div class="co-logo" style="background:#5851DB">S</div>
+      <div class="co-main">
+        <h3>Stripe</h3>
+        <div class="sub"><span>4 members here</span><span>Engineering · Ops</span></div>
+      </div>
+      <div class="co-side">
+        <span class="badge teal hiring">Hiring now</span>
+        <a class="btn sm" href="login.html">Request referral</a>
+      </div>
+    </article>
+
+    <article class="card hover co-row">
+      <div class="co-logo" style="background:#1A73E8">G</div>
+      <div class="co-main">
+        <h3>Google</h3>
+        <div class="sub"><span>6 members here</span><span>Engineering · Sales · Cloud</span></div>
+      </div>
+      <div class="co-side">
+        <span class="badge teal hiring">Hiring now</span>
+        <a class="btn sm" href="login.html">Request referral</a>
+      </div>
+    </article>
+
+    <article class="card hover co-row">
+      <div class="co-logo" style="background:#A100FF">A</div>
+      <div class="co-main">
+        <h3>Accenture</h3>
+        <div class="sub"><span>9 members here</span><span>Consulting · Tech Delivery</span></div>
+      </div>
+      <div class="co-side">
+        <a class="btn sm" href="login.html">Request referral</a>
+      </div>
+    </article>
+
+    <article class="card hover co-row">
+      <div class="co-logo" style="background:#1B4396">B</div>
+      <div class="co-main">
+        <h3>Bank of Ireland</h3>
+        <div class="sub"><span>3 members here</span><span>Finance · Risk · Data</span></div>
+      </div>
+      <div class="co-side">
+        <a class="btn sm" href="login.html">Request referral</a>
+      </div>
+    </article>
+
+    <article class="card co-row perk-row">
+      <div class="co-logo" style="background:linear-gradient(135deg,var(--saffron),var(--saffron-deep))">C</div>
+      <div class="co-main">
+        <span class="perk-kicker">Partner perk</span>
+        <h3>Chai &amp; Co</h3>
+        <div class="sub"><span>20% off your first order in Dublin — for interview prep fuel</span></div>
+      </div>
+      <div class="co-side">
+        <a class="btn saffron sm" href="login.html">Claim perk</a>
+      </div>
+    </article>
+
+    <article class="card hover co-row">
+      <div class="co-logo" style="background:#0668E1">M</div>
+      <div class="co-main">
+        <h3>Meta</h3>
+        <div class="sub"><span>2 members here</span><span>Engineering · Integrity</span></div>
+      </div>
+      <div class="co-side">
+        <a class="btn sm" href="login.html">Request referral</a>
+      </div>
+    </article>
+
+    <article class="card hover co-row">
+      <div class="co-logo" style="background:#D40E14">W</div>
+      <div class="co-main">
+        <h3>Workday</h3>
+        <div class="sub"><span>5 members here</span><span>Engineering · Product</span></div>
+      </div>
+      <div class="co-side">
+        <span class="badge teal hiring">Hiring now</span>
+        <a class="btn sm" href="login.html">Request referral</a>
+      </div>
+    </article>
+  </div>
+
+  <!-- Open requests (what referrers see) -->
+  <div id="open-requests" data-panel class="co-list" style="display:none">
+    <div class="notice info" role="note" style="margin-bottom:8px">
+      <svg viewBox="0 0 24 24"><path d="M12 9v4M12 16.5v.5"/><circle cx="12" cy="12" r="9"/></svg>
+      <span>These members are looking for a referral at a company where <strong>you</strong> work. Helping one takes about five minutes.</span>
+    </div>
+    <article class="card hover req-row">
+      <div class="req-main">
+        <h3>Data analyst · 3 yrs experience → Bank of Ireland</h3>
+        <div class="sub">Posted 2 days ago · CV attached · SQL, Python, Tableau</div>
+      </div>
+      <a class="btn sm" href="login.html">View &amp; refer</a>
+    </article>
+    <article class="card hover req-row">
+      <div class="req-main">
+        <h3>Frontend engineer · React → Stripe or Workday</h3>
+        <div class="sub">Posted 4 days ago · CV attached · Currently on Stamp 1G</div>
+      </div>
+      <a class="btn sm" href="login.html">View &amp; refer</a>
+    </article>
+    <article class="card hover req-row">
+      <div class="req-main">
+        <h3>New grad · MSc Data Science UCD → any analytics role</h3>
+        <div class="sub">Posted 6 days ago · CV attached · Available immediately</div>
+      </div>
+      <a class="btn sm" href="login.html">View &amp; refer</a>
+    </article>
+  </div>
+
+  <!-- My requests (status tracking) -->
+  <div id="my-requests" data-panel class="co-list" style="display:none">
+    <article class="card req-row">
+      <div class="req-main">
+        <h3>Google — Cloud Sales Associate</h3>
+        <div class="sub">Requested 12 Aug via Arjun P.</div>
+      </div>
+      <span class="status referred"><i></i>Referred — check your email</span>
+    </article>
+    <article class="card req-row">
+      <div class="req-main">
+        <h3>Stripe — Risk Operations</h3>
+        <div class="sub">Requested 10 Aug via Sofia L.</div>
+      </div>
+      <span class="status viewed"><i></i>CV viewed</span>
+    </article>
+    <article class="card req-row">
+      <div class="req-main">
+        <h3>Workday — Associate QA Engineer</h3>
+        <div class="sub">Requested 8 Aug via Chen H.</div>
+      </div>
+      <span class="status requested"><i></i>Requested</span>
+    </article>
+    <div class="empty">
+      <strong>Tip: one request per company at a time</strong>
+      Focused requests with a tailored note get referred 3× more often than bulk asks.
+    </div>
+  </div>
+
+  <div class="side-note">
+    <div class="card">
+      <span class="glyph"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h4"/></svg></span>
+      <h4>Attach one sharp CV</h4>
+      <p>Your CV and a three-line note go to the referrer. No cover letters, no essays — referrers vouch for people, not paperwork.</p>
+    </div>
+    <div class="card">
+      <span class="glyph"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg></span>
+      <h4>Track every request</h4>
+      <p>Requested → viewed → referred. You always know where you stand, and requests auto-close after 14 days.</p>
+    </div>
+    <div class="card">
+      <span class="glyph"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.9L12 16.4l-5.2 2.8 1-5.9L3.5 9.2l5.9-.9z"/></svg></span>
+      <h4>Referrers earn status</h4>
+      <p>Every successful referral earns a public badge. The most generous members are the community's real celebrities.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div><strong style="color:var(--ink)">ZOTO</strong> · Your best friend abroad · Dublin, Ireland</div>
+    <div class="foot-links">
+      <a href="community.html">Community</a><a href="#">About</a><a href="#">Contact</a><a href="#">Privacy</a><a href="#">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/zoto.js"></script>
+</body>
+</html>
